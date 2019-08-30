@@ -27,12 +27,18 @@ class FrameInputHandler(gym.ObservationWrapper):
             raise Exception("Unknow frame format!")
         
         img = self.rgbToGray(img)
-        resized_img = cv2.resize(img, (84, 110), interpolation=cv2.INTER_AREA)
+        resized_img = self.resizeImg(img)
 
-        input_processed = resized_img[18:102, :]
-        input_processed = np.reshape(input_processed, DESIRED_SHAPE)
+        cropped_img   = self.cropImg(resized_img)
+        reshaped_img = np.reshape(cropped_img, DESIRED_SHAPE)
 
-        return input_processed.astype(np.uint8)
+        return reshaped_img.astype(np.uint8)
+
+    def cropImg(self, img):
+        return img[18:102, :]
+
+    def resizeImg(self, img):
+        return cv2.resize(img, (84, 110), interpolation=cv2.INTER_AREA)
 
     # https://stackoverflow.com/questions/12201577/how-can-i-convert-an-rgb-image-into-grayscale-in-python
     def rgbToGray(self, rgb):

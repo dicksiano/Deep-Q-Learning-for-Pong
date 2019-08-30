@@ -6,9 +6,9 @@ import numpy as np
 SKIP_ACT = 4
 SKIP_OBS = 2
 
-class ObservActionHandler(gym.Wrapper):
+class StepHandler(gym.Wrapper):
     def __init__(self, env):
-        super(ObservActionHandler, self).__init__(env)
+        super(StepHandler, self).__init__(env)
         self.observ_buffer = collections.queue(maxlen=SKIP_OBS)
 
 def step(self, action):
